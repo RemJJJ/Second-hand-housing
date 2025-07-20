@@ -13,7 +13,7 @@
                 <div class="row info-line">
                     <!--大标题-->
                     <div class="col-lg-12 col-md-12 detail-header">
-                        <h3>23322&nbsp545656</h3>
+                        <h3>{{ house.title }}</h3>
                         <div class="describe">
                             <span>为您精准定位，当前城市房源信息</span>
                         </div>
@@ -27,7 +27,7 @@
                             </div>
                             <!--价格-->
                             <div class="house-info">
-                                <span class="price">￥&nbsp99999/月</span>
+                                <span class="price">￥&nbsp{{ house.price }}/月</span>
                                 <span class="collection" id="btn-collection">
                                     <a>
                                         <i class="fa fa-heart" aria-hidden="true"> 收藏</i>
@@ -47,29 +47,29 @@
                                 <div class="col-lg-4 col-md-4">
                                     <div>
                                         <span class="attribute-text">房屋户型：</span>
-                                        <span class="info-text">5</span>
+                                        <span class="info-text">{{ house.rooms }}</span>
                                     </div>
                                     <div>
                                         <span class="attribute-text">建筑面积：</span>
-                                        <span class="info-text">200平方米</span>
+                                        <span class="info-text">{{ house.area }}平方米</span>
                                     </div>
                                     <div>
                                         <span class="attribute-text">房屋朝向：</span>
-                                        <span class="info-text">888</span>
+                                        <span class="info-text">{{ house.direction }}</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <div>
                                         <span class="attribute-text">所在区域：</span>
-                                        <span class="info-text">6776</span>
+                                        <span class="info-text">{{ house.region }}</span>
                                     </div>
                                     <div>
                                         <span class="attribute-text">租住类型：</span>
-                                        <span class="info-text">5656556</span>
+                                        <span class="info-text">{{ house.rent_type }}</span>
                                     </div>
                                     <div>
                                         <span class="attribute-text">房东电话：</span>
-                                        <span class="info-text">5455</span>
+                                        <span class="info-text">{{ house.phone }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -81,11 +81,11 @@
                                 <div class="col-lg-8 col-md-8">
                                     <div>
                                         <span class="attribute-text">交通条件：</span>
-                                        <span class="info-text">55555</span>
+                                        <span class="info-text">{{ house.traffic }}</span>
                                     </div>
                                     <div>
                                         <span class="attribute-text">优势条件：</span>
-                                        <span class="info-text">8888</span>
+                                        <span class="info-text">{{ house.highlights }}</span>
                                     </div>
                                 </div>
 
@@ -100,47 +100,47 @@
                                 <div class="col-lg-2 col-md-2">
                                     <span class="icon-1"></span>
 
-                                    <!-- {% if '冰箱' in facilities %} -->
-                                    <!-- <span class="attribute-text-sm" style="color: #f1c40f">冰箱</span> -->
-                                    <!-- {% else %} -->
+                                    {% if '冰箱' in house.facilities %}
+                                    <span class="attribute-text-sm" style="color: #f1c40f">冰箱</span>
+                                    {% else %}
                                     <span class="attribute-text-sm"><s>冰箱</s></span>
-                                    <!-- {% endif %} -->
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <span class="icon-2"></span>
-                                    <!-- {% if '洗衣机' in facilities %} -->
+                                    {% if '洗衣机' in house.facilities %}
                                     <span class="attribute-text-sm" style="color: #f1c40f">洗衣机</span>
-                                    <!-- {% else %}
+                                    {% else %}
                                     <span class="attribute-text-sm"><s>洗衣机</s></span>
-                                    {% endif %} -->
+                                    {% endif %}
 
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <span class="icon-3"></span>
 
-                                    <!-- {% if '电视' in facilities %} -->
+                                    {% if '电视' in house.facilities %}
                                     <span class="attribute-text-sm" style="color: #f1c40f">电视</span>
-                                    <!-- {% else %}
+                                    {% else %}
                                     <span class="attribute-text-sm"><s>电视</s></span>
-                                    {% endif %} -->
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <span class="icon-4"></span>
 
-                                    <!-- {% if '空调' in facilities %} -->
+                                    {% if '空调' in house.facilities %}
                                     <span class="attribute-text-sm" style="color: #f1c40f">空调</span>
-                                    <!-- {% else %}
+                                    {% else %}
                                     <span class="attribute-text-sm"><s>空调</s></span>
-                                    {% endif %} -->
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <span class="icon-5"></span>
 
-                                    <!-- {% if '暖气' in facilities %} -->
+                                    {% if '暖气' in house.facilities %}
                                     <span class="attribute-text-sm" style="color: #f1c40f">暖气</span>
-                                    <!-- {% else %}
+                                    {% else %}
                                     <span class="attribute-text-sm"><s>暖气</s></span>
-                                    {% endif %} -->
+                                    {% endif %}
 
                                 </div>
                             </div>
@@ -148,47 +148,47 @@
                                 <div class="col-lg-2 col-md-2">
                                     <span class="icon-6"></span>
 
-                                    <!-- {% if '热水器' in facilities %} -->
+                                    {% if '热水器' in house.facilities %}
                                     <span class="attribute-text-sm" style="color: #f1c40f">热水器</span>
-                                    <!-- {% else %}
+                                    {% else %}
                                     <span class="attribute-text-sm"><s>热水器</s></span>
-                                    {% endif %} -->
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <span class="icon-7"></span>
 
-                                    <!-- {% if '天然气' in facilities %} -->
+                                    {% if '天然气' in house.facilities %}
                                     <span class="attribute-text-sm" style="color: #f1c40f">天然气</span>
-                                    <!-- {% else %}
+                                    {% else %}
                                     <span class="attribute-text-sm"><s>天然气</s></span>
-                                    {% endif %} -->
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <span class="icon-8"></span>
 
-                                    <!-- {% if '床' in facilities %} -->
+                                    {% if '床' in house.facilities %}
                                     <span class="attribute-text-sm" style="color: #f1c40f">床</span>
-                                    <!-- {% else %}
+                                    {% else %}
                                     <span class="attribute-text-sm"><s>床</s></span>
-                                    {% endif %} -->
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <span class="icon-9"></span>
 
-                                    <!-- {% if '宽带' in facilities %} -->
+                                    {% if '宽带' in house.facilities %}
                                     <span class="attribute-text-sm" style="color: #f1c40f">Wi-Fi</span>
-                                    <!-- {% else %}
+                                    {% else %}
                                     <span class="attribute-text-sm"><s>Wi-Fi</s></span>
-                                    {% endif %} -->
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <span class="icon-10"></span>
 
-                                    <!-- {% if '电梯' in facilities %} -->
+                                    {% if '电梯' in house.facilities %}
                                     <span class="attribute-text-sm" style="color: #f1c40f">电梯</span>
-                                    <!-- {% else %}
+                                    {% else %}
                                     <span class="attribute-text-sm"><s>电梯</s></span>
-                                    {% endif %} -->
+                                    {% endif %}
                                 </div>
                             </div>
 
@@ -203,7 +203,7 @@
                             <div class="row">
                                 <div class="col-md-11 col-lg-11">
                                     <div class="row">
-                                        <!-- {% for house in recommend_li %} -->
+                                        {% for house in recommend_li %}
                                         <div class="col-lg-4 col-md-4">
                                             <div class="recommend">
                                                 <div><a href=""><img class='img-fluid img-box'
@@ -211,16 +211,16 @@
                                                 </div>
                                                 <div class="recommend-info">
                                                     <span class="glyphicon glyphicon-map-marker"></span>
-                                                    <span>34434343</span>
+                                                    <span>{{ house.address }}</span>
                                                 </div>
                                                 <div class="recommend-info1">
-                                                    <span>4343-5555平方米</span>
+                                                    <span>{{ house.area }}平方米</span>
                                                     <span class="price float-right"
-                                                        style="color: #e74c3c">￥&nbsp44343433</span>
+                                                        style="color: #e74c3c">￥&nbsp{{ house.price }}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- {% endfor %} -->
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -232,7 +232,7 @@
 
                             <!--line-->
                             <div class="col-lg-12 col-md-12 mx-auto attribute-header">
-                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp34243
+                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp{{ house.rooms }}
                                     价格走势</h4>
                                 <div class="attribute-header-tip-line">
                                     <span>人工智能算法，为您预测房价走势</span>
@@ -245,7 +245,7 @@
 
                             <!--pie-->
                             <div class="col-lg-12 col-md-12 mx-auto attribute-header">
-                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp343244
+                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp{{ house.rooms }}
                                     户型占比</h4>
                                 <div class="attribute-header-tip-line">
                                     <span>根据户型占比，了解户型稀缺度</span>
@@ -258,7 +258,7 @@
 
                             <!--pie2-->
                             <div class="col-lg-12 col-md-12 mx-auto attribute-header">
-                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp43424
+                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp{{ house.block }}
                                     小区房源数量TOP20</h4>
                                 <div class="attribute-header-tip-line">
                                     <span>关注房源数量，了解房源热点</span>
@@ -271,7 +271,7 @@
 
                             <!--line2-->
                             <div class="col-lg-12 col-md-12 mx-auto attribute-header">
-                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp434242
+                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp{{ house.rooms }}
                                     户型价格走势</h4>
                                 <div class="attribute-header-tip-line">
                                     <span>关注房源单价，了解各小区房价</span>
