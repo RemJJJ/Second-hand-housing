@@ -164,14 +164,17 @@
             console.log('搜索时间:', new Date().toLocaleString());
             console.log('================');
             
-            // 调用搜索函数
-            searchByIndexOf(keyword);
+            // 使用防抖搜索，而不是直接调用
+            debouncedSearch(keyword);
         } else {
             console.log('搜索框已清空');
+            // 清空时隐藏建议列表
+            oList.innerHTML = '';
+            oList.style.display = 'none';
         }
     });
 
-    // 搜索关键字
+    // 搜索关键字（仅用于控制台输出，不发送请求）
     function searchByIndexOf(keyword){
         // 只获取当前激活的搜索模式
         if($(".chanle1").hasClass("active")){
@@ -214,6 +217,11 @@
 
     // 设置锁，true表示锁住输入框，false表示解锁输入框
     let cpLock = false;
+    
+    // 防抖定时器
+    let searchTimer = null;
+    let lastSearchKeyword = '';
+    let minSearchLength = 2; // 最少输入2个字符才开始搜索
 
     // 监听compositionstart事件，监听输入中文触发事件
     $("#txt").on('compositionstart', function () {
@@ -223,18 +231,54 @@
     // 当文本段落的组成完成或取消时，compositionend 事件将被触发
     $("#txt").on('compositionend', function () {
         cpLock = false;
-        var resultList = searchByIndexOf($(this).val());
+        var keyword = $(this).val().trim();
+        debouncedSearch(keyword);
     })
 
     // 英文搜索，监听input事件，用于处理字母搜索
     $("#txt").on('input', function () {
         if (!cpLock) {
-            var resultList = searchByIndexOf($(this).val());
+            var keyword = $(this).val().trim();
+            debouncedSearch(keyword);
         }
     })
+    
+    // 防抖搜索函数
+    function debouncedSearch(keyword) {
+        // 清除之前的定时器
+        if (searchTimer) {
+            clearTimeout(searchTimer);
+        }
+        
+        // 如果关键词为空或太短，隐藏建议列表
+        if (!keyword || keyword.length < minSearchLength) {
+            oList.innerHTML = '';
+            oList.style.display = 'none';
+            lastSearchKeyword = '';
+            return;
+        }
+        
+        // 如果关键词没有变化，不重复搜索
+        if (keyword === lastSearchKeyword) {
+            return;
+        }
+        
+        // 设置新的定时器，延迟500ms后执行搜索
+        searchTimer = setTimeout(function() {
+            searchSuggestions(keyword);
+            lastSearchKeyword = keyword;
+        }, 500);
+    }
 
-    // 搜索关键字
-    function searchByIndexOf(keyWord) {
+    // 搜索建议
+    function searchSuggestions(keyWord) {
+        // 如果关键词为空或太短，不执行搜索
+        if (!keyWord || keyWord.length < minSearchLength) {
+            return;
+        }
+        
+        console.log('执行搜索建议:', keyWord);
+        
         $(".my-nav-tab li").each(function () {
             if ($(this).hasClass("active")) {
                 let info = $(this).text()
@@ -250,30 +294,44 @@
                     data: data,
                     dataType: 'json',
                     success: function (res) {
-                        console.log(res)
+                        console.log('搜索结果:', res);
                         if (res.code == 0) {
+                            // 没有找到结果，隐藏建议列表
+                            oList.innerHTML = '';
+                            oList.style.display = 'none';
                             return false;
                         }
                         else {
                             list = res.data
-                            console.log(data)
+                            console.log('建议数据:', data)
                             oList.innerHTML = '';
-                            let item = null;
-                            for (let i = 0; i < list.length; i++) {
-                                item = document.createElement('li')
-                                item.className = 'list-group-item li_style'
-                                item.setAttribute('title', list[i].t_name)
-                                li_text = list[i]['t_name'] + '<span class="badge float-right">大约有' + list[i]['num'] + '套房</span>'
-                                item.innerHTML = li_text
-                                oList.appendChild(item)
+                            
+                            // 显示建议列表
+                            if (list && list.length > 0) {
+                                let item = null;
+                                for (let i = 0; i < list.length; i++) {
+                                    item = document.createElement('li')
+                                    item.className = 'list-group-item li_style'
+                                    item.setAttribute('title', list[i].t_name)
+                                    li_text = list[i]['t_name'] + '<span class="badge float-right">大约有' + list[i]['num'] + '套房</span>'
+                                    item.innerHTML = li_text
+                                    oList.appendChild(item)
+                                }
+                                oList.style.display = 'block';
                                 info_to_txt();
+                            } else {
+                                oList.style.display = 'none';
                             }
                             return list;
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('搜索请求失败:', error);
+                        oList.innerHTML = '';
+                        oList.style.display = 'none';
                     }
                 })
             }
-
         })
     }
 
@@ -288,8 +346,17 @@
             $('#txt').val('');
             $('#txt').val(t_name);
             $('#list').empty()
+            $('#list').hide();
         })
     }
+    
+    // 搜索框失去焦点时隐藏建议列表
+    $('#txt').on('blur', function() {
+        setTimeout(function() {
+            $('#list').hide();
+        }, 200);
+    });
+    
 </script>
 
 {% endblock %}
