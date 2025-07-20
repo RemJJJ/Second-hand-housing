@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+{% block body %}
+<link rel="stylesheet" href="/static/house/css/user.css">
+
+<header class="masthead no-margin-bottom" style="background-color: #fff; min-height: 500px">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row ">
+            <div class="col-lg-8 col-md-8 mx-auto detail-body">
+                <ul class="nav nav-tabs" style="margin:10px 0 30px">
+                    <li class="active chanle1"><a href="#userinfo">账号信息</a></li>
+                    <li class="chanle2"><a href="#collections">房源收藏</a></li>
+                </ul>
+                <!-- 个人信息表单 -->
+                <div class="user-info">
+                    <form id="profile-form" class="form-group">
+                        <div class="row">
+                            <div class="col-lg-8 c-1">
+                                <label for="username" class="form-label">用户名：</label>
+                                <input type="text" class="form-control" id="username" name="username" 
+                                       value="{{ username }}" placeholder="请输入用户名">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-8 c-1">
+                                <label for="addr" class="form-label">住址：</label>
+                                <input type="text" class="form-control" id="addr" name="addr" 
+                                       value="{{addr}}" data-original="{{addr}}" placeholder="请输入住址">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-8 c-1">
+                                <label for="password" class="form-label">密码：</label>
+                                <div class="password-container">
+                                    <input type="password" class="form-control" id="password" name="password" 
+                                           placeholder="留空表示不修改密码">
+                                    <i class="fa fa-eye password-toggle" id="password-toggle" title="显示/隐藏密码"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-8 c-1">
+                                <label for="email" class="form-label">邮箱：</label>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                       value="{{email}}" data-original="{{email}}" placeholder="请输入邮箱">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-8 c-1">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save" aria-hidden="true"></i> 保存修改
+                                </button>
+                                <button type="reset" class="btn btn-secondary">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i> 重置
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--收藏列表-->
+                <div class="collection">
+                    <div class="row collection-line" id="collect">
+                        <span class="collect_off" id="">取消收藏</span>
+                        <div class="col-lg-4 col-md-4 mx-auto">
+                            <div>
+                                <a href="/house">
+                                    <img class='img-fluid img-box' src="/static/img/house-bg1.jpg" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mx-auto">
+                            <div class="collection-line-info">
+                                <div>
+                                    <span class="attribute-text">房源地址：</span>
+                                    &nbsp
+                                    <span class="info-text">5555</span>
+                                </div>
+                                <div>
+                                    <span class="attribute-text">建筑面积：</span>
+                                    &nbsp
+                                    <span class="info-text">6666平方米</span>
+                                </div>
+                                <div>
+                                    <span class="attribute-text">房源户型：</span>
+                                    &nbsp
+                                    <span class="info-text">7777</span>
+                                </div>
+                                <div>
+                                    <span class="attribute-text">房源朝向：</span>
+                                    &nbsp
+                                    <span class="info-text">8888</span>
+                                </div>
+                                <div>
+                                    <span class="attribute-text">房源价格：</span>
+                                    &nbsp
+                                    <span class="info-text" style="color: #e74c3c">￥&nbsp7777</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 mx-auto" style="height: 100px; margin-top: 40px;">
+                            <div class="info-more"
+                                style="width: 100%; height: 100%; position: relative; overflow: hidden;">
+                                <span><a href="/house"
+                                        style="position: absolute; top:-30px; left: -1px; height: 20px;"><i
+                                            class="fa fa-arrow-right" aria-hidden="true"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!--浏览记录-->
+            <div class="col-lg-4 col-md-4 mx-auto detail-body">
+                <div class="row browse-record">
+                    <div class="col-lg-10 col-md-10 mx-auto">
+                        <h3 style="margin:20px 0 15px">浏览记录</h3>
+
+                    </div>
+                    <div class="col-lg-10 col-md-10 mx-auto del-btn">
+                        <span id="del">清空浏览记录</span>
+                    </div>
+                    <div style="overflow: scroll; height:680px;">
+
+
+                        <div class="col-lg-10 col-md-10 mx-auto browse-record-first-div">
+                            <div class="course">
+                                <div><a href="/house"><img class='img-fluid img-box' src="/static/img/house-bg1.jpg"
+                                            alt=""></a>
+                                </div>
+                                <div class="course-info">
+                                    <span class="glyphicon glyphicon-map-marker"></span>
+                                    <span>55555</span>
+                                </div>
+                                <div class="course-info1">
+                                    <span>6666-200平方米</span>
+                                    <span class="price">￥&nbsp8888</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+<script src="/static/js/user.js"></script>
+{% endblock %}

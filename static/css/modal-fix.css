@@ -1,0 +1,31 @@
+/* 模态框修复样式 */
+.modal {
+    z-index: 1050 !important;
+}
+
+.modal-backdrop {
+    z-index: 1040 !important;
+}
+
+.login_form {
+    z-index: 1051 !important;
+}
+
+/* 确保模态框内容可以点击 */
+.modal-content {
+    z-index: 1052 !important;
+    position: relative;
+}
+
+/* 修复模态框背景问题 */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* 确保模态框在移动设备上也能正常工作 */
+@media (max-width: 768px) {
+    .modal-dialog {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+    }
+} 

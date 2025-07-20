@@ -1,0 +1,441 @@
+{% extends "layout.html" %}
+{% block body %}
+<link rel="stylesheet" href="/static/house/css/detail.css">
+
+<header class="masthead no-margin-bottom" style="background-color: #fff">
+    <div class="overlay"></div>
+    <div class="container">
+
+
+        <!--内容-->
+        <div class="row">
+            <div class="col-lg-12 col-md-12 mx-auto detail-body">
+                <div class="row info-line">
+                    <!--大标题-->
+                    <div class="col-lg-12 col-md-12 detail-header">
+                        <h3>23322&nbsp545656</h3>
+                        <div class="describe">
+                            <span>为您精准定位，当前城市房源信息</span>
+                        </div>
+                    </div>
+                    <!--左详情-->
+                    <div class="col-lg-8 col-md-8">
+                        <div class="course">
+
+                            <!--图-->
+                            <div><a href="#"><img class='img-fluid img-box' src="/static/img/house-bg1.jpg" alt=""></a>
+                            </div>
+                            <!--价格-->
+                            <div class="house-info">
+                                <span class="price">￥&nbsp99999/月</span>
+                                <span class="collection" id="btn-collection">
+                                    <a>
+                                        <i class="fa fa-heart" aria-hidden="true"> 收藏</i>
+                                    </a>
+                                </span>
+                            </div>
+
+                            <!--基本信息标题-->
+                            <div class="attribute-header">
+                                <h4>基本信息</h4>
+                            </div>
+                            <!--属性1-->
+                            <div class="row attribute-info">
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="attribute-text">基本属性</span>
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <div>
+                                        <span class="attribute-text">房屋户型：</span>
+                                        <span class="info-text">5</span>
+                                    </div>
+                                    <div>
+                                        <span class="attribute-text">建筑面积：</span>
+                                        <span class="info-text">200平方米</span>
+                                    </div>
+                                    <div>
+                                        <span class="attribute-text">房屋朝向：</span>
+                                        <span class="info-text">888</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div>
+                                        <span class="attribute-text">所在区域：</span>
+                                        <span class="info-text">6776</span>
+                                    </div>
+                                    <div>
+                                        <span class="attribute-text">租住类型：</span>
+                                        <span class="info-text">5656556</span>
+                                    </div>
+                                    <div>
+                                        <span class="attribute-text">房东电话：</span>
+                                        <span class="info-text">5455</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--属性2-->
+                            <div class="row attribute-info">
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="attribute-text">房屋卖点</span>
+                                </div>
+                                <div class="col-lg-8 col-md-8">
+                                    <div>
+                                        <span class="attribute-text">交通条件：</span>
+                                        <span class="info-text">55555</span>
+                                    </div>
+                                    <div>
+                                        <span class="attribute-text">优势条件：</span>
+                                        <span class="info-text">8888</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--房源配套设施-->
+                            <div class="attribute-header">
+                                <h4>房源配套设施</h4>
+                            </div>
+                            <!--设施列表-->
+                            <div class="row attribute-info">
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="icon-1"></span>
+
+                                    <!-- {% if '冰箱' in facilities %} -->
+                                    <!-- <span class="attribute-text-sm" style="color: #f1c40f">冰箱</span> -->
+                                    <!-- {% else %} -->
+                                    <span class="attribute-text-sm"><s>冰箱</s></span>
+                                    <!-- {% endif %} -->
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="icon-2"></span>
+                                    <!-- {% if '洗衣机' in facilities %} -->
+                                    <span class="attribute-text-sm" style="color: #f1c40f">洗衣机</span>
+                                    <!-- {% else %}
+                                    <span class="attribute-text-sm"><s>洗衣机</s></span>
+                                    {% endif %} -->
+
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="icon-3"></span>
+
+                                    <!-- {% if '电视' in facilities %} -->
+                                    <span class="attribute-text-sm" style="color: #f1c40f">电视</span>
+                                    <!-- {% else %}
+                                    <span class="attribute-text-sm"><s>电视</s></span>
+                                    {% endif %} -->
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="icon-4"></span>
+
+                                    <!-- {% if '空调' in facilities %} -->
+                                    <span class="attribute-text-sm" style="color: #f1c40f">空调</span>
+                                    <!-- {% else %}
+                                    <span class="attribute-text-sm"><s>空调</s></span>
+                                    {% endif %} -->
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="icon-5"></span>
+
+                                    <!-- {% if '暖气' in facilities %} -->
+                                    <span class="attribute-text-sm" style="color: #f1c40f">暖气</span>
+                                    <!-- {% else %}
+                                    <span class="attribute-text-sm"><s>暖气</s></span>
+                                    {% endif %} -->
+
+                                </div>
+                            </div>
+                            <div class="row attribute-info">
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="icon-6"></span>
+
+                                    <!-- {% if '热水器' in facilities %} -->
+                                    <span class="attribute-text-sm" style="color: #f1c40f">热水器</span>
+                                    <!-- {% else %}
+                                    <span class="attribute-text-sm"><s>热水器</s></span>
+                                    {% endif %} -->
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="icon-7"></span>
+
+                                    <!-- {% if '天然气' in facilities %} -->
+                                    <span class="attribute-text-sm" style="color: #f1c40f">天然气</span>
+                                    <!-- {% else %}
+                                    <span class="attribute-text-sm"><s>天然气</s></span>
+                                    {% endif %} -->
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="icon-8"></span>
+
+                                    <!-- {% if '床' in facilities %} -->
+                                    <span class="attribute-text-sm" style="color: #f1c40f">床</span>
+                                    <!-- {% else %}
+                                    <span class="attribute-text-sm"><s>床</s></span>
+                                    {% endif %} -->
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="icon-9"></span>
+
+                                    <!-- {% if '宽带' in facilities %} -->
+                                    <span class="attribute-text-sm" style="color: #f1c40f">Wi-Fi</span>
+                                    <!-- {% else %}
+                                    <span class="attribute-text-sm"><s>Wi-Fi</s></span>
+                                    {% endif %} -->
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <span class="icon-10"></span>
+
+                                    <!-- {% if '电梯' in facilities %} -->
+                                    <span class="attribute-text-sm" style="color: #f1c40f">电梯</span>
+                                    <!-- {% else %}
+                                    <span class="attribute-text-sm"><s>电梯</s></span>
+                                    {% endif %} -->
+                                </div>
+                            </div>
+
+                            <!--推荐标题-->
+                            <div class="attribute-header">
+                                <h4>推荐房源</h4>
+                                <div class="attribute-header-tip-line">
+                                    <span>根据您的浏览习惯，推荐优质房源</span>
+                                </div>
+                            </div>
+                            <!--推荐-->
+                            <div class="row">
+                                <div class="col-md-11 col-lg-11">
+                                    <div class="row">
+                                        <!-- {% for house in recommend_li %} -->
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="recommend">
+                                                <div><a href=""><img class='img-fluid img-box'
+                                                            src="/static/img/house-bg1.jpg" alt=""></a>
+                                                </div>
+                                                <div class="recommend-info">
+                                                    <span class="glyphicon glyphicon-map-marker"></span>
+                                                    <span>34434343</span>
+                                                </div>
+                                                <div class="recommend-info1">
+                                                    <span>4343-5555平方米</span>
+                                                    <span class="price float-right"
+                                                        style="color: #e74c3c">￥&nbsp44343433</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- {% endfor %} -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--右边栏-->
+                    <div class="col-lg-4 col-md-4">
+                        <div class="row">
+
+                            <!--line-->
+                            <div class="col-lg-12 col-md-12 mx-auto attribute-header">
+                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp34243
+                                    价格走势</h4>
+                                <div class="attribute-header-tip-line">
+                                    <span>人工智能算法，为您预测房价走势</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 mx-auto browse-record-first-div self-no-padding">
+                                <div id="f_line" class="echarts-tu">
+                                </div>
+                            </div>
+
+                            <!--pie-->
+                            <div class="col-lg-12 col-md-12 mx-auto attribute-header">
+                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp343244
+                                    户型占比</h4>
+                                <div class="attribute-header-tip-line">
+                                    <span>根据户型占比，了解户型稀缺度</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 mx-auto browse-record-first-div self-no-padding">
+                                <div id="pie">
+                                </div>
+                            </div>
+
+                            <!--pie2-->
+                            <div class="col-lg-12 col-md-12 mx-auto attribute-header">
+                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp43424
+                                    小区房源数量TOP20</h4>
+                                <div class="attribute-header-tip-line">
+                                    <span>关注房源数量，了解房源热点</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 mx-auto browse-record-first-div self-no-padding">
+                                <div id="scolumn_line">
+                                </div>
+                            </div>
+
+                            <!--line2-->
+                            <div class="col-lg-12 col-md-12 mx-auto attribute-header">
+                                <h4><i class="fa fa-align-right" aria-hidden="true"></i>&nbsp&nbsp434242
+                                    户型价格走势</h4>
+                                <div class="attribute-header-tip-line">
+                                    <span>关注房源单价，了解各小区房价</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 mx-auto browse-record-first-div self-no-padding">
+                                <div id="broken_line">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<script>
+    $(window).ready(function () {
+        // 价格走势
+        let priceDom = document.getElementById("f_line");
+        let priceEcharts = echarts.init(priceDom);
+        let priceOption = {
+            xAxis: {},
+            grid: {
+                show: true,//是否显示直角坐标系的网格,true显示，false不显示
+                left: '5%',//grid组件离容器左侧的距离
+                containLabel: true,//grid 区域是否包含坐标轴的刻度标签，在无法确定坐标轴标签的宽度，容器有比较小无法预留较多空间的时候，可以设为 true 防止标签溢出容器。
+                // width: '360px',
+                right: '0%',
+                top: '10%',
+            },
+            yAxis: {
+                type: 'value',
+                min: 1.5,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+                name: '平均价格/元',
+                nameLocation: 'center',
+                nameGap: 30
+            },
+            series: [
+                {
+                    symbolSize: 20,
+                    data: [
+                        [10.0, 8.04],
+                        [8.07, 6.95],
+                        [13.0, 7.58],
+                        [9.05, 8.81],
+                        [11.0, 8.33],
+                        [14.0, 7.66],
+                        [13.4, 6.81],
+                        [10.0, 6.33],
+                        [14.0, 8.96],
+                        [12.5, 6.82],
+                        [9.15, 7.2],
+                        [11.5, 7.2],
+                        [3.03, 4.23],
+                        [12.2, 7.83],
+                        [2.02, 4.47],
+                        [1.05, 3.33],
+                        [4.05, 4.96],
+                        [6.03, 7.24],
+                        [12.0, 6.26],
+                        [12.0, 8.84],
+                        [7.08, 5.82],
+                        [5.02, 5.68]
+                    ],
+                    type: 'scatter'
+                }
+            ]
+        };
+
+        priceOption && priceEcharts.setOption(priceOption);
+
+
+        // 户型占比
+        let houeTypeDom = document.getElementById("pie");
+        let houeTypecharts = echarts.init(houeTypeDom);
+        let houeTypeOption = {
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                show: false
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [
+                        { value: 1048, name: 'Search Engine' },
+                        { value: 735, name: 'Direct' },
+                        { value: 580, name: 'Email' },
+                        { value: 484, name: 'Union Ads' },
+                        { value: 300, name: 'Video Ads' },
+                        { value: 108, name: 'Search Engine' },
+                        { value: 75, name: 'Direct' },
+                        { value: 550, name: 'Email' },
+                        { value: 484, name: 'Union Ads' },
+                        { value: 300, name: 'Video Ads' }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        houeTypeOption && houeTypecharts.setOption(houeTypeOption);
+    })
+
+    // 房源数量TOP20
+    let houseNumDom = document.getElementById("scolumn_line");
+    let houseNumEcharts = echarts.init(houseNumDom);
+    let houseNumOption = {
+        xAxis:{
+            type: 'category',
+            data:['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
+        },
+        yAxis:{
+            type: 'value'
+        },
+        series:[
+            {
+                data: [120, 200, 150, 80, 70, 110, 130, 100, 105, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+                type: 'bar'
+            }
+        ]
+    }
+
+    houseNumOption && houseNumEcharts.setOption(houseNumOption);
+
+    // 户型价格走势
+    let housePriceDom = document.getElementById("broken_line");
+    let housePriceEcharts = echarts.init(housePriceDom);
+    let housePriceOption = {
+        xAxis:{
+            name: '月份',
+            type: 'category',
+            data:['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+        },
+        yAxis:{
+            name: '价格',
+            // y轴刻度为50
+            interval: 10,
+            type: 'value'
+        },
+        series:[
+            {
+                data: [120, 200, 150, 80, 70, 110, 130, 100, 105, 100, 100, 100],
+                type: 'line'
+            }
+        ]
+    }
+
+    housePriceOption && housePriceEcharts.setOption(housePriceOption);
+
+</script>
+{% endblock %}
