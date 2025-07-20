@@ -72,7 +72,7 @@
         {% for item in new_list %}
         <div class="col-lg-4">
             <div class="course">
-                <div><a href="/house"><img class='img-fluid img-box' src="/static/img/house-bg1.jpg"
+                <div><a href="/house/{{item.id}}"><img class='img-fluid img-box' src="/static/img/house-bg1.jpg"
                             alt=""></a></div>
                 <div class="course-info">
                     <span>{{item['address']}}</span>
@@ -104,7 +104,7 @@
         {% for item in hot_list %}
         <div class="col-lg-3">
             <div class="course">
-                <div><a href="/house"><img class='img-fluid img-box' src="/static/img/house-bg1.jpg"
+                <div><a href="/house/{{item.id}}"><img class='img-fluid img-box' src="/static/img/house-bg1.jpg"
                             alt=""></a></div>
                 <div class="course-info">
                     <span>{{item['address']}}</span>

@@ -16,6 +16,24 @@ app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 
+
+# 设置过滤器
+def deal_title_over(title):
+    # 处理None和空值
+    if not title:
+        return "暂无标题"
+
+    # 转换为字符串
+    title_str = str(title)
+
+    if len(title_str) > 12:
+        return title_str[:12] + "..."
+    return title_str
+
+
+# 注册过滤器
+app.jinja_env.filters["deal_title_over"] = deal_title_over
+
 # 注册首页
 app.register_blueprint(index_page, url_prefix="/")
 
