@@ -406,6 +406,14 @@
             var $btn = $(this); // 保存按钮引用
             var hid = {{house.id}};
             console.log(hid);
+
+            // 判断当前按钮状态
+            var isCollected = $btn.text().indexOf('已收藏') !== -1;
+            var confirmMsg = isCollected ? '确定要取消收藏该房源吗？' : '确定要收藏该房源吗？';
+            if(!confirm(confirmMsg)){
+                return; // 用户取消
+            }
+
             $.ajax({
                 type: 'post',
                 url: '/collection/',

@@ -155,3 +155,37 @@ $('#profile-form button[type="reset"]').click(function(e){
         originalUsername = $('#username').val();
     }, 100);
 });
+
+// 取消收藏按钮
+$('.collect_off').click(function(){
+    var hid = $(this).data('hid');
+    console.log(hid);
+
+    var $btn = $(this); // 保存按钮引用
+
+    var confirmMsg = '确定要取消收藏该房源吗？';
+    if(!confirm(confirmMsg)){
+        return; // 用户取消
+    }
+
+    // 发送AJAX请求
+    $.ajax({
+        url: '/collection/',
+        type: 'POST',
+        data: {
+            'hid': hid
+        },
+        dataType: 'json',
+        success: function(response){
+            if(response.code === 2){
+                alert('取消收藏成功');
+                // 移除当前这条收藏记录
+                $btn.closest('.row.collection-line').remove();
+                // 检查是否还有收藏记录
+                if ($('.row.collection-line').length === 0) {
+                    $('.user-collections').html('<div class="no-collection-tip" style="color:#aaa;text-align:center;padding:40px 0;">暂无收藏记录</div>');
+                }
+            }
+        }
+    })
+})
