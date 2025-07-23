@@ -37,21 +37,21 @@
         </div>
         
         <!-- 排序选项 -->
-        {% if not search_keyword %}
         <div class="row mb-3">
             <div class="col-lg-12">
                 <div class="sort-options">
                     <span class="sort-label">排序方式：</span>
-                    <a href="/list" class="sort-btn {% if not sort_type %}active{% endif %}">
+                    <a href="/list{% if search_keyword %}?search={{ search_keyword }}{% if request.args.get('type') %}&type={{ request.args.get('type') }}{% endif %}{% endif %}" class="sort-btn {% if not sort_type %}active{% endif %}">
                         <i class="fa fa-clock-o"></i> 最新发布
                     </a>
-                    <a href="/list?sort=hot" class="sort-btn {% if sort_type == 'hot' %}active{% endif %}">
+                    <a href="/list?sort=hot{% if search_keyword %}&search={{ search_keyword }}{% if request.args.get('type') %}&type={{ request.args.get('type') }}{% endif %}{% endif %}" class="sort-btn {% if sort_type == 'hot' %}active{% endif %}">
                         <i class="fa fa-fire"></i> 热度最高
                     </a>
                 </div>
             </div>
         </div>
-        {% endif %}
+
+       
         <!-- 模块1信息展示 -->
         <div class="collection col-lg-12 col-md-12">
             <div id="fill-data" class="">
@@ -233,5 +233,6 @@ $(document).ready(function() {
         window.location.href = url;
     }
 });
+
 </script>
 {% endblock %}

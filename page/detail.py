@@ -1,5 +1,5 @@
-from flask import Flask, Blueprint, render_template, redirect, url_for
-from models import House
+from flask import Flask, Blueprint, render_template, redirect, url_for, request, jsonify
+from models import House, User, db
 from sqlalchemy import func
 import random
 
@@ -15,6 +15,17 @@ def index(id=None):
     if not house:
         return redirect(url_for("index_page.index"))
 
+    # 判断是否收藏
+    is_collect = False
+    user_id = request.cookies.get("name")
+    if user_id:
+        user = User.query.filter(User.name == user_id).first()
+        if user:
+            collect = user.collect_id
+            if collect:
+                collect_id = collect.split(",")
+                if id in collect_id:
+                    is_collect = True
     # 根据当前房子的地区推荐6条最新上传的房源信息
     recommend_houses = (
         House.query.filter(
@@ -39,4 +50,38 @@ def index(id=None):
         )
         recommend_houses.extend(additional_houses)
 
-    return render_template("detail.html", house=house, recommend_li=recommend_houses)
+    return render_template(
+        "detail.html", house=house, recommend_li=recommend_houses, is_collect=is_collect
+    )
+
+
+@detail_page.route("/collection/", methods=["post"])
+def collection():
+    hid = request.form.get("hid")
+    print(hid)
+
+    # 获取cookie判断用户是否登录
+    user_id = request.cookies.get("name")
+    print(user_id)
+    if not user_id:
+        return jsonify({"code": 0, "msg": "请先登录"})
+
+    # 判断是否收藏(user中的collect_id字段)
+    user = User.query.filter(User.name == user_id).first()
+
+    if user:
+        collect = user.collect_id
+        #  分割collect_id
+        if collect:
+            collect_id = collect.split(",")
+        else:
+            collect_id = []
+        if hid in collect_id:
+            return jsonify({"code": 2, "msg": "已收藏"})
+        else:
+            collect_id.append(hid)
+            user.collect_id = ",".join(collect_id)
+            db.session.commit()
+            return jsonify({"code": 1, "msg": "收藏成功"})
+    else:
+        return jsonify({"code": 0, "msg": "请先登录"})

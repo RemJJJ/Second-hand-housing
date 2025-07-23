@@ -125,15 +125,16 @@
      position: absolute;
  }
 
+ /* 添加手指鼠标悬停效果 */
  .collection:hover {
-     background-color: #f1c40f;
+     background-color: #ff0000;
      border: 0.5px solid #ecf0f1;
-
+     cursor: pointer;
  }
 
  .collection i {
-     color: #f1c40f;
-     padding: 5px 10px;
+     color: #ff0000;
+     padding: 5px;
  }
 
  .collection:hover i {

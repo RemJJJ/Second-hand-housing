@@ -55,7 +55,11 @@
                                 <span class="price">￥&nbsp{{ house.price or '暂无' }}/月</span>
                                 <span class="collection" id="btn-collection">
                                     <a>
-                                        <i class="fa fa-heart" aria-hidden="true"> 收藏</i>
+                                        {% if is_collect %}
+                                        <i class="fa fa-heart" aria-hidden="true"> 已收藏</i>
+                                        {% else %}
+                                        <i class="fa fa-heart" aria-hidden="true"> 未收藏</i>
+                                        {% endif %}
                                     </a>
                                 </span>
                             </div>
@@ -390,6 +394,35 @@
                 console.error('户型价格走势图数据请求失败:', error);
             }
         });
+
+        // 点击收藏按钮
+        $('.collection').on('click', function(){
+            console.log('点击收藏按钮');
+            var $btn = $(this); // 保存按钮引用
+            var hid = {{house.id}};
+            console.log(hid);
+            $.ajax({
+                type: 'post',
+                url: '/collection/',
+                data:{
+                    'hid': hid,
+                },
+                success: function(response){
+                    if(response.code === 1){
+                        alert('收藏成功');
+                        // 按钮变成已收藏
+                        $btn.html('<i class="fa fa-heart" aria-hidden="true"> 已收藏</i>');
+                    }else if(response.code === 2){
+                        alert('该房源已收藏');
+                    }else{
+                        alert('收藏失败');
+                    }
+                },
+                error: function(xhr, status, error){
+                    console.error('收藏失败:', error);
+                }
+            })
+        })
     })
 </script>
 {% endblock %}
