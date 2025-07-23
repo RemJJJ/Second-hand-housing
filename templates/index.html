@@ -313,7 +313,9 @@
                                     item = document.createElement('li')
                                     item.className = 'list-group-item li_style'
                                     item.setAttribute('title', list[i].t_name)
-                                    li_text = list[i]['t_name'] + '<span class="badge float-right">大约有' + list[i]['num'] + '套房</span>'
+                                    // 这里对t_name高亮
+                                    let highText = highlightKeyword(list[i]['t_name']);
+                                    li_text = highText + '<span class="badge float-right">大约有' + list[i]['num'] + '套房</span>'
                                     item.innerHTML = li_text
                                     oList.appendChild(item)
                                 }
@@ -356,6 +358,24 @@
             $('#list').hide();
         }, 200);
     });
+    
+    // 高亮搜索关键词
+    function highlightKeyword(text){
+        let keyword = $("#txt").val();
+        if(keyword){
+            // 防止正则注入
+            keyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            return text.replace(new RegExp('(' + keyword + ')', 'gi'),'<span class="highlighted">$1</span>');
+        }
+        else{
+            return `<span>${text}</span>`;
+        }
+    }
+
+    // 高亮样式
+    const style = document.createElement('style');
+    style.innerHTML = `.highlighted { color: #f00; background: yellow; }`;
+    document.head.appendChild(style);
     
 </script>
 
