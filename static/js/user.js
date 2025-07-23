@@ -192,10 +192,17 @@ $('.collect_off').click(function(){
 
 // 清空浏览记录
 $('#del').click(function(){
+    // 若没有浏览记录，提示
+    if($('.browse-record-first-div').length === 0){
+        alert('暂无浏览记录');
+        return;
+    }
+    // 确认
     var confirmMsg = '确定要清空浏览记录吗？';
     if(!confirm(confirmMsg)){
         return;
     }
+
     $.ajax({
         url: '/deletebrowserecord',
         type: 'POST',
