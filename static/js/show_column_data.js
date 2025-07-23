@@ -1,6 +1,13 @@
 function column_chart(data) {
-
     var salaru_line = echarts.init(document.getElementById('scolumn_line'));
+    
+    // 设置容器高度
+    var container = document.getElementById('scolumn_line');
+    if (container) {
+        container.style.height = "300px";
+        container.style.width = "100%";
+    }
+    
     window.addEventListener('resize', function () {
         salaru_line.resize();
     });
@@ -14,7 +21,9 @@ function column_chart(data) {
         grid: {
             height: '200px',
             width: '320px',
-            left: '50px'
+            left: '50px',
+            right: '20px',
+            bottom: '60px'  // 增加底部空间给X轴文字
         },
         xAxis: {
             axisTick: {
@@ -29,31 +38,19 @@ function column_chart(data) {
             data: XData,
             axisLabel: {
                 formatter: function (value) {
-                    var ret = ""; // 拼接类目项
-                    var maxLength = 1; // 每项显示文字个数
-                    var valLength = value.length; // X轴类目项的文字个数
-                    var rowN = Math.ceil(valLength / maxLength); // 类目项需要换行的行数
-                    if (rowN > 1) // 如果类目项的文字个数大于3,
-                    {
-                        for (var i = 0; i < rowN; i++) {
-                            var temp = ""; // 存放每次截取的字符串
-                            var start = i * maxLength; // 开始截取的位置
-                            var end = start + maxLength; // 结束截取的位置
-                            temp = value.substring(start, end) + "\n";
-                            ret += temp; // 拼接最终得到的字符串
-                        }
-                        return ret;
-                    } else {
-                        return value;
+                    // 简化文字处理，只显示前4个字符
+                    if (value.length > 4) {
+                        return value.substring(0, 4) + '...';
                     }
+                    return value;
                 },
                 interval: 0,
-                fontSize: 11,
+                fontSize: 10,
                 fontWeight: 100,
                 textStyle: {
                     color: '#555',
-
-                }
+                },
+                rotate: 45  // 旋转文字避免重叠
             },
             axisLine: {
                 show: {
@@ -62,7 +59,7 @@ function column_chart(data) {
             }
         },
         yAxis: {
-            name: '房源数量/套',
+            name: '房源数量',
             nameLocation: 'center',
             nameGap: 35,
 
@@ -93,10 +90,13 @@ function column_chart(data) {
             "textStyle": {
                 "fontSize": 12
             },
-            "formatter": "{b0}: {c0}套"
+            "formatter": function(params) {
+                return params.name + '<br/>房源数量: ' + params.value + '套';
+            }
         },
         series: [{
             type: "bar",
+            barWidth: '40%',  // 设置柱子宽度为40%
             itemStyle: {
                 normal: {
                     color: {
@@ -114,14 +114,12 @@ function column_chart(data) {
                         }],
                         globalCoord: false // 缺省为 false
                     },
-                    barBorderRadius: 15,
+                    barBorderRadius: 8,  // 减小圆角
                 }
             },
             data: YData,
             label: {
-                show: true,
-                position: 'top',
-                "fontSize": 10
+                show: false  // 不显示柱子上的数量标签
             }
         }]
     };

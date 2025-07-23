@@ -314,6 +314,7 @@
     </div>
 </header>
 <script src="/static/house/js/show_data_pie.js"></script>
+<script src="/static/js/show_column_data.js"></script>
 <script>
     $(document).ready(function(){
         // 户型占比
@@ -332,7 +333,25 @@
             error: function(xhr, status, error) {
                 console.error('饼图数据请求失败:', error);
             }
-        })
+        });
+        
+        // 小区房源数量TOP20柱状图
+        $.ajax({
+            type: 'post',
+            url: '/get/columndata/{{house.block}}',
+            dataType: 'json',
+            success: function(response){
+                console.log('柱状图数据响应:', response);
+                if(response.code === 0 && response.data) {
+                    column_chart(response.data);
+                } else {
+                    console.error('获取柱状图数据失败:', response.msg);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('柱状图数据请求失败:', error);
+            }
+        });
     })
 </script>
 {% endblock %}
