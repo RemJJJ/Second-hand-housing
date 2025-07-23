@@ -13,10 +13,36 @@ function broken_line_chart(data) {
         salaru_line.resize();
     });
 
-    var Data1 = data['3室2厅'];
-    var Data2 = data['2室2厅'];
-    var Data3 = data['2室1厅'];
-    var Data4 = data['1室1厅'];
+    // 动态获取户型数据
+    var roomTypes = [];
+    var seriesData = [];
+    var colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
+    
+    // 遍历数据，找出所有户型（除了date_li）
+    for (var key in data) {
+        if (key !== 'date_li' && Array.isArray(data[key])) {
+            roomTypes.push(key);
+        }
+    }
+    
+    console.log('户型价格走势图 - 检测到的户型:', roomTypes);
+    
+    // 为每个户型创建系列数据
+    roomTypes.forEach(function(roomType, index) {
+        seriesData.push({
+            name: roomType,
+            type: 'line',
+            smooth: true,
+            data: data[roomType],
+            itemStyle: {
+                color: colors[index % colors.length]
+            },
+            lineStyle: {
+                color: colors[index % colors.length],
+                width: 2
+            }
+        });
+    });
 
     echartsDate = [];
     for (var i = 0; i < data['date_li'].length; i++) {
@@ -36,8 +62,9 @@ function broken_line_chart(data) {
             }
         },
         legend: {
-            data: ['3室2厅', '2室2厅', '2室1厅', '1室1厅'],
-            top: 10
+            data: roomTypes,
+            top: 10,
+            type: 'scroll'  // 如果户型太多，可以滚动
         },
         grid: {
             containLabel: true,
@@ -69,60 +96,7 @@ function broken_line_chart(data) {
                 }
             }
         },
-        series: [
-            {
-                name: '3室2厅',
-                type: 'line',
-                smooth: true,
-                data: Data1,
-                itemStyle: {
-                    color: '#e74c3c'
-                },
-                lineStyle: {
-                    color: '#e74c3c',
-                    width: 2
-                }
-            },
-            {
-                name: '2室2厅',
-                type: 'line',
-                smooth: true,
-                data: Data2,
-                itemStyle: {
-                    color: '#3498db'
-                },
-                lineStyle: {
-                    color: '#3498db',
-                    width: 2
-                }
-            },
-            {
-                name: '2室1厅',
-                type: 'line',
-                smooth: true,
-                data: Data3,
-                itemStyle: {
-                    color: '#2ecc71'
-                },
-                lineStyle: {
-                    color: '#2ecc71',
-                    width: 2
-                }
-            },
-            {
-                name: '1室1厅',
-                type: 'line',
-                smooth: true,
-                data: Data4,
-                itemStyle: {
-                    color: '#f39c12'
-                },
-                lineStyle: {
-                    color: '#f39c12',
-                    width: 2
-                }
-            }
-        ]
+        series: seriesData
     };
 
     salaru_line.setOption(option, true);

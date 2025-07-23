@@ -74,23 +74,49 @@ def column_data(block):
 def price_data(block):
     print(f"接收到价格走势数据请求，小区: {block}")
 
-    # 生成近14天的日期
-    dates = []
-    prices = []
-    base_price = 8500  # 基础价格
+    # 根据时间序列获取房源数据  House.price / House.area = 房子价格/房子面积
+    result = (
+        House.query.with_entities(func.avg(House.price / House.area))
+        .filter(House.block == block)
+        .group_by(House.publish_time)
+        .order_by(House.publish_time)
+        .all()
+    )
 
-    for i in range(14):
-        date = datetime.now() - timedelta(days=13 - i)
-        dates.append(date.strftime("%m-%d"))
+    time_stamp = (
+        House.query.with_entities(House.publish_time).filter(House.block == block).all()
+    )
+    time_stamp.sort(reverse=True)
 
-        # 生成带有线性回归趋势的价格数据
-        # 添加一些随机波动，但保持整体上升趋势
-        trend = i * 50  # 线性增长趋势
-        random_factor = random.randint(-100, 100)  # 随机波动
-        price = base_price + trend + random_factor
-        prices.append(int(price))
+    if not time_stamp:
+        print(f"未找到小区 {block} 的时间戳数据")
+        return jsonify({"code": 1, "msg": "未找到时间戳数据", "data": {}})
 
-    data = {"name_list_x": dates, "price_list_y": prices}
+    # 生成最近14天的日期列表
+    date_list = []
+    for i in range(1, 15):
+        # 将时间戳(timestamp)转换成具体的日期
+        latest_release = datetime.fromtimestamp(int(time_stamp[0][0]))
+        # 获取最新房源发布时间的i天
+        day = latest_release + timedelta(days=-i)
+        # 将i天的日期格式化为字符串的形式并添加到date_list列表中
+        date_list.append(day.strftime("%m-%d"))
+    # 将日期列表反转
+    date_list.reverse()
+
+    # 获取平均价格数据
+    price_list = []
+    for item in result[-14:]:  # 取最近14天的数据
+        if item[0] is not None:
+            price_list.append(round(item[0], 2))
+        else:
+            price_list.append(0)
+
+    # 如果数据不足14天，用0填充
+    while len(price_list) < 14:
+        price_list.append(0)
+
+    data = {"name_list_x": date_list, "price_list_y": price_list}
 
     print(f"处理后的数据: {data}")
     return jsonify({"code": 0, "msg": "查询出来", "data": data})
@@ -101,26 +127,69 @@ def price_data(block):
 def room_price_data(block):
     print(f"接收到户型价格走势数据请求，小区: {block}")
 
-    # 生成近14天的日期
-    date_li = []
-    for i in range(14):
-        date = datetime.now() - timedelta(days=13 - i)
-        date_li.append(date.strftime("%m-%d"))
+    # 获取房源时间序列
+    time_stamp = (
+        House.query.with_entities(House.publish_time).filter(House.block == block).all()
+    )
 
-    # 为不同户型生成带有线性回归趋势的价格数据
-    base_prices = {"3室2厅": 9500, "2室2厅": 8500, "2室1厅": 7500, "1室1厅": 6500}
+    if not time_stamp:
+        print(f"未找到小区 {block} 的时间戳数据")
+        return jsonify({"code": 1, "msg": "未找到时间戳数据", "data": {}})
 
-    data = {"date_li": date_li}
+    # 生成最近14天的日期列表
+    date_list = []
+    for i in range(1, 15):
+        # 将时间戳(timestamp)转换成具体的日期
+        latest_release = datetime.fromtimestamp(int(time_stamp[0][0]))
+        # 获取最新房源发布时间的i天
+        day = latest_release + timedelta(days=-i)
+        # 将i天的日期格式化为字符串的形式并添加到date_list列表中
+        date_list.append(day.strftime("%m-%d"))
+    # 将日期列表反转
+    date_list.reverse()
 
-    for room_type, base_price in base_prices.items():
-        prices = []
-        for i in range(14):
-            # 生成带有线性回归趋势的价格数据
-            trend = i * 40  # 线性增长趋势
-            random_factor = random.randint(-80, 80)  # 随机波动
-            price = base_price + trend + random_factor
-            prices.append(int(price))
-        data[room_type] = prices
+    # 先获取该小区的实际户型数据（与饼图相同）
+    room_types_result = (
+        House.query.with_entities(House.rooms, func.count())
+        .filter(House.block == block)
+        .group_by(House.rooms)
+        .order_by(func.count().desc())
+        .all()
+    )
+
+    if not room_types_result:
+        print(f"未找到小区 {block} 的户型数据")
+        return jsonify({"code": 1, "msg": "未找到户型数据", "data": {}})
+
+    # 获取实际存在的户型
+    actual_room_types = [item[0] for item in room_types_result]
+    print(f"实际户型: {actual_room_types}")
+
+    data = {"date_li": date_list}
+
+    # 为每个实际户型查询价格数据
+    for room_type in actual_room_types:
+        # 查询该户型的平均房价/面积数据，并按时间顺序排列
+        rooms_data = (
+            House.query.with_entities(func.avg(House.price / House.area))
+            .filter(House.block == block, House.rooms == room_type)
+            .group_by(House.publish_time)
+            .order_by(House.publish_time)
+            .all()
+        )
+
+        room_prices = []
+        for item in rooms_data[-14:]:  # 取最近14天的数据
+            if item[0] is not None:
+                room_prices.append(round(item[0], 2))
+            else:
+                room_prices.append(0)
+
+        # 如果数据不足14天，用0填充
+        while len(room_prices) < 14:
+            room_prices.append(0)
+
+        data[room_type] = room_prices
 
     print(f"处理后的数据: {data}")
     return jsonify({"code": 0, "msg": "查询出来", "data": data})

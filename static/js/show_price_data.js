@@ -47,7 +47,7 @@ function price_chart(data) {
         },
         yAxis: {
             type: 'value',
-            name: '平均价格/元',
+            name: '平均单价(元/㎡)',
             nameLocation: 'center',
             nameGap: 30,
             axisTick: {
