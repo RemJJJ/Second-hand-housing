@@ -15,37 +15,28 @@ def index(id=None):
     if not house:
         return redirect(url_for("index_page.index"))
 
-    # 根据当前房子的小区推荐6条房源信息
+    # 根据当前房子的地区推荐6条最新上传的房源信息
     recommend_houses = (
         House.query.filter(
-            House.block == house.block, House.id != house.id  # 同小区  # 排除当前房源
+            House.region == house.region, House.id != house.id  # 同地区  # 排除当前房源
         )
+        .order_by(House.publish_time.desc())  # 按发布时间倒序排列，最新的在前
         .limit(6)
         .all()
     )
 
-    # 如果同小区房源不足6条，补充同街道的其他房源
+    # 如果同地区房源不足6条，补充其他地区的最新房源
     if len(recommend_houses) < 6:
         remaining_count = 6 - len(recommend_houses)
         additional_houses = (
             House.query.filter(
-                House.region == house.region,  # 同街道
-                House.block != house.block,  # 不同小区
+                House.region != house.region,  # 不同地区
                 House.id != house.id,  # 排除当前房源
             )
+            .order_by(House.publish_time.desc())  # 按发布时间倒序排列
             .limit(remaining_count)
             .all()
         )
         recommend_houses.extend(additional_houses)
-
-    # 如果还是不足6条，补充其他房源
-    if len(recommend_houses) < 6:
-        remaining_count = 6 - len(recommend_houses)
-        other_houses = (
-            House.query.filter(House.id != house.id)  # 排除当前房源
-            .limit(remaining_count)
-            .all()
-        )
-        recommend_houses.extend(other_houses)
 
     return render_template("detail.html", house=house, recommend_li=recommend_houses)

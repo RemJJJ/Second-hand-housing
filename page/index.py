@@ -14,7 +14,7 @@ def index():
     house_total_num = House.query.count()
     # 获取最新房源6条
     house_new_list = House.query.order_by(House.publish_time.desc()).limit(6).all()
-    # 获取热门房源4条
+    # 获取热度最高的房源4条（按浏览量降序排列）
     house_hot_list = House.query.order_by(House.page_views.desc()).limit(4).all()
     return render_template(
         "index.html",

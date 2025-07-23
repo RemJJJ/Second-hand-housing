@@ -249,3 +249,45 @@ hr {
     background: #6c757d;
     cursor: not-allowed;
 }
+
+/* 排序选项样式 */
+.sort-options {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.sort-label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 15px;
+}
+
+.sort-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #666;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.sort-btn:hover {
+    background-color: #17a2b8;
+    color: white;
+    border-color: #17a2b8;
+    text-decoration: none;
+}
+
+.sort-btn.active {
+    background-color: #17a2b8;
+    color: white;
+    border-color: #17a2b8;
+}
+
+.sort-btn i {
+    margin-right: 5px;
+}

@@ -10,6 +10,7 @@ def index():
     # 获取搜索参数
     search_keyword = request.args.get("search", "").strip()
     search_type = request.args.get("type", "").strip()
+    sort_type = request.args.get("sort", "").strip()  # 新增排序参数
     page = request.args.get("page", 1, type=int)
     per_page = 10  # 每页显示10条
 
@@ -37,15 +38,38 @@ def index():
                 )
             )
 
+        # 根据排序类型进行排序
+        if sort_type == "hot":
+            query = query.order_by(House.page_views.desc())
+        else:
+            query = query.order_by(House.publish_time.desc())  # 默认按发布时间排序
+
         # 分页查询
         houses = query.offset((page - 1) * per_page).limit(per_page).all()
         total_count = query.count()
         page_title = f"搜索结果：{search_keyword}"
     else:
         # 获取所有房源（分页）
-        houses = House.query.offset((page - 1) * per_page).limit(per_page).all()
+        if sort_type == "hot":
+            # 按热度排序
+            houses = (
+                House.query.order_by(House.page_views.desc())
+                .offset((page - 1) * per_page)
+                .limit(per_page)
+                .all()
+            )
+            page_title = "热点房源"
+        else:
+            # 默认按发布时间排序
+            houses = (
+                House.query.order_by(House.publish_time.desc())
+                .offset((page - 1) * per_page)
+                .limit(per_page)
+                .all()
+            )
+            page_title = "所有房源"
+
         total_count = House.query.count()
-        page_title = "所有房源"
 
     # 计算总页数
     total_pages = (total_count + per_page - 1) // per_page
@@ -58,4 +82,5 @@ def index():
         current_page=page,
         total_pages=total_pages,
         total_count=total_count,
+        sort_type=sort_type,  # 传递排序类型到模板
     )
