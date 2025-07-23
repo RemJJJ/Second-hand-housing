@@ -1,16 +1,17 @@
 function column_chart(data) {
     var salaru_line = echarts.init(document.getElementById('scolumn_line'));
     
-    // 设置容器高度
-    var container = document.getElementById('scolumn_line');
-    if (container) {
-        container.style.height = "300px";
-        container.style.width = "100%";
+    // 移除JS设置容器高度和宽度，改为用CSS控制
+    // window.addEventListener('resize', function () {
+    //     salaru_line.resize();
+    // });
+    // 防止重复绑定resize
+    if (!window._scolumn_line_resize_bound) {
+        window.addEventListener('resize', function () {
+            salaru_line.resize();
+        });
+        window._scolumn_line_resize_bound = true;
     }
-    
-    window.addEventListener('resize', function () {
-        salaru_line.resize();
-    });
     var XData = data['name_list_x']; // X轴的数据
     var YData = data['num_list_y'];  // Y轴的数据
 
@@ -96,7 +97,8 @@ function column_chart(data) {
         },
         series: [{
             type: "bar",
-            barWidth: '40%',  // 设置柱子宽度为40%
+            barWidth: '45%',
+            minBarHeight: 8, // 设置最小柱高，保证小数据也能看到
             itemStyle: {
                 normal: {
                     color: {
@@ -105,21 +107,35 @@ function column_chart(data) {
                         y: 0,
                         x2: 0,
                         y2: 1,
-                        colorStops: [{
-                            offset: 0,
-                            color: '#00d386' // 0% 处的颜色
-                        }, {
-                            offset: 1,
-                            color: '#0076fc' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
+                        colorStops: [
+                            { offset: 0, color: '#6dd5ed' }, // 渐变色更现代
+                            { offset: 1, color: '#2193b0' }
+                        ],
+                        globalCoord: false
                     },
-                    barBorderRadius: 8,  // 减小圆角
+                    barBorderRadius: [8, 8, 0, 0],
+                    shadowColor: 'rgba(33,147,176,0.18)',
+                    shadowBlur: 8
                 }
             },
             data: YData,
             label: {
-                show: false  // 不显示柱子上的数量标签
+                show: true,
+                position: 'top',
+                color: '#2193b0',
+                fontWeight: 'bold',
+                fontSize: 13,
+                rotate: 45, // 让数字斜着显示
+                formatter: function(val){
+                    return val.value > 0 ? val.value : '';
+                }
+            },
+            emphasis: {
+                itemStyle: {
+                    color: '#0076fc',
+                    shadowColor: 'rgba(0,118,252,0.25)',
+                    shadowBlur: 12
+                }
             }
         }]
     };

@@ -1,16 +1,17 @@
 function column_chart(data) {
     var salaru_line = echarts.init(document.getElementById('scolumn_line'));
     
-    // 设置容器高度
-    var container = document.getElementById('scolumn_line');
-    if (container) {
-        container.style.height = "300px";
-        container.style.width = "100%";
+    // 移除JS设置容器高度和宽度，改为用CSS控制
+    // window.addEventListener('resize', function () {
+    //     salaru_line.resize();
+    // });
+    // 防止重复绑定resize
+    if (!window._scolumn_line_resize_bound) {
+        window.addEventListener('resize', function () {
+            salaru_line.resize();
+        });
+        window._scolumn_line_resize_bound = true;
     }
-    
-    window.addEventListener('resize', function () {
-        salaru_line.resize();
-    });
     var XData = data['name_list_x']; // X轴的数据
     var YData = data['num_list_y'];  // Y轴的数据
 
