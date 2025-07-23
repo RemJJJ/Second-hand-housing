@@ -50,42 +50,42 @@ def search_kw():
 
     if info == "地区搜索":
         # 获取查询结构   House.address.contains(kw筛选 address 包含关键词 kw 的记录（模糊匹配）。
-        house_data = House.query.with_entities(House.address, func.count()).filter(
-            House.address.contains(kw)
-        )
+        house_data = House.query.with_entities(
+            House.address, func.count().label("num")
+        ).filter(House.address.contains(kw))
 
         # 对查询结果进行分组、排序，并获取数量最多的钱9条房源信息
         result = (
-            house_data.group_by("address").order_by(func.count().desc()).limit(9).all()
+            house_data.group_by(House.address)
+            .order_by(func.count().desc())
+            .limit(9)
+            .all()
         )
 
         # 查询结果
         if result:
-            data = []
-            for i in result:
-                # 将查询的数据添加到data中
-                data.append({"t_name": i[0], "num": i[1]})
-                return jsonify({"code": 1, "msg": "查询成功", "data": data})
+            data = [{"t_name": i[0], "num": i[1]} for i in result]
+            return jsonify({"code": 1, "msg": "查询成功", "data": data})
         else:
             return jsonify({"code": 0, "msg": "暂无数据", "data": []})
 
     elif info == "户型搜索":
 
-        house_data = House.query.with_entities(House.rooms, func.count()).filter(
-            House.rooms.contains(kw)
-        )
+        house_data = House.query.with_entities(
+            House.rooms, func.count().label("nums")
+        ).filter(House.rooms.contains(kw))
 
         result = (
-            house_data.group_by("rooms").order_by(func.count().desc()).limit(9).all()
+            house_data.group_by(House.rooms)
+            .order_by(func.count().desc())
+            .limit(9)
+            .all()
         )
 
         if result:
-            data = []
-            for i in result:
-                # 将查询的数据添加到data中
-                data.append({"t_name": i[0], "num": i[1]})
-                return jsonify({"code": 1, "msg": "查询成功", "data": data})
+            data = [{"t_name": i[0], "num": i[1]} for i in result]
+            return jsonify({"code": 1, "msg": "查询成功", "data": data})
         else:
             return jsonify({"code": 0, "msg": "暂无数据", "data": []})
 
-    return jsonify({"code": 0, "msg": "暂无数据", "data": []})
+    return jsonify({"code": 0, "msg": "无效的搜索类型", "data": []})

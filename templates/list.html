@@ -4,54 +4,7 @@
 <link href="/static/css/zxf_page.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/house/css/list.css">
 
-<style>
-.pagination-container {
-    text-align: center;
-    padding: 20px 0;
-}
 
-.pagination-info {
-    margin-bottom: 15px;
-    color: #666;
-}
-
-.pagination-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.pagination-btn {
-    background: #17a2b8;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-}
-
-.pagination-btn:hover {
-    background: #138496;
-    color: white;
-    text-decoration: none;
-}
-
-.pagination-btn:disabled {
-    background: #6c757d;
-    cursor: not-allowed;
-}
-
-.pagination-btn.active {
-    background: #28a745;
-}
-
-.no-more {
-    color: #6c757d;
-    font-style: italic;
-}
-</style>
 
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('/static/img/home-bg.jpg')">
@@ -181,6 +134,14 @@
                     {% if current_page < total_pages %}
                         <a href="/list?page={{ current_page + 1 }}{% if search_keyword %}&search={{ search_keyword }}{% endif %}{% if request.args.get('type') %}&type={{ request.args.get('type') }}{% endif %}" class="pagination-btn">下一页</a>
                     {% endif %}
+                    
+                    <!-- 页码跳转 -->
+                    <div class="page-jump">
+                        <span>跳转到</span>
+                        <input type="number" id="jumpPage" class="jump-input" min="1" max="{{ total_pages }}" placeholder="{{ current_page }}">
+                        <span>页</span>
+                        <button type="button" id="jumpBtn" class="jump-btn">跳转</button>
+                    </div>
                 </div>
             </div>
             {% endif %}
@@ -196,4 +157,61 @@
 </div>
 <hr>
 
+<!-- 跳转按钮 -->
+<script>
+$(document).ready(function() {
+    // 页码跳转功能
+    $('#jumpBtn').on('click', function() {
+        jumpToPage();
+    });
+    
+    // 回车键跳转
+    $('#jumpPage').on('keypress', function(e) {
+        if (e.which === 13) { // Enter键
+            jumpToPage();
+        }
+    });
+    
+    // 跳转函数
+    function jumpToPage() {
+        var pageNum = parseInt($('#jumpPage').val());
+        var totalPages = {{ total_pages }};
+        var currentPage = {{ current_page }};
+        
+        // 验证输入
+        if (!pageNum || isNaN(pageNum)) {
+            alert('请输入有效的页码！');
+            $('#jumpPage').focus();
+            return;
+        }
+        
+        if (pageNum < 1 || pageNum > totalPages) {
+            alert('页码必须在 1 到 ' + totalPages + ' 之间！');
+            $('#jumpPage').focus();
+            return;
+        }
+        
+        if (pageNum === currentPage) {
+            alert('您已经在第 ' + currentPage + ' 页了！');
+            return;
+        }
+        
+        // URL
+        var url = '/list?page=' + pageNum;
+        
+        // 添加搜索参数
+        {% if search_keyword %}
+        url += '&search={{ search_keyword }}';
+        {% endif %}
+        
+        // 添加搜索类型参数
+        {% if request.args.get('type') %}
+        url += '&type={{ request.args.get('type') }}';
+        {% endif %}
+        
+        // 跳转到指定页面
+        window.location.href = url;
+    }
+});
+</script>
 {% endblock %}

@@ -5,6 +5,7 @@ from page.index import index_page
 from page.detail import detail_page
 from page.user import user_page
 from page.list import list_page
+from api.detail import detail_api
 
 from config import Config, db
 
@@ -45,6 +46,9 @@ app.register_blueprint(user_page, url_prefix="/")
 
 # 列表
 app.register_blueprint(list_page, url_prefix="/")
+
+# 详情页API
+app.register_blueprint(detail_api, url_prefix="/get/")
 
 # 注册用户登录与注册接口
 app.register_blueprint(user_api, url_prefix="/")

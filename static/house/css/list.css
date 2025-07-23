@@ -149,3 +149,103 @@
 hr {
     margin: 2px;
 }
+
+.pagination-container {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.pagination-info {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.pagination-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pagination-btn {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.pagination-btn:hover {
+    background: #138496;
+    color: white;
+    text-decoration: none;
+}
+
+.pagination-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.pagination-btn.active {
+    background: #28a745;
+}
+
+.no-more {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* 页码跳转样式 */
+.page-jump {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 20px;
+    padding: 8px 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+.page-jump span {
+    color: #495057;
+    font-size: 14px;
+}
+
+.jump-input {
+    width: 60px;
+    height: 32px;
+    padding: 4px 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.jump-input:focus {
+    outline: none;
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+}
+
+.jump-btn {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.jump-btn:hover {
+    background: #138496;
+}
+
+.jump-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
