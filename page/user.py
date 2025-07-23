@@ -28,6 +28,8 @@ def index(username=None):
 
         houses = House.query.filter(House.id.in_(collect_id)).all()
 
+        print(houses)
+
         if user:
             return render_template(
                 "user.html",

@@ -9,116 +9,120 @@
             <!-- 左侧：账号信息和收藏列表 -->
             <div class="col-lg-8 col-md-8 mx-auto detail-body">
                 <ul class="nav nav-tabs" style="margin:10px 0 30px">
-                    <li class="active chanle1"><a href="#userinfo">账号信息</a></li>
-                    <li class="chanle2"><a href="#collections">房源收藏</a></li>
+                    <li class="active chanle1"><a href="#userinfo" data-toggle="tab">账号信息</a></li>
+                    <li class="chanle2"><a href="#collections" data-toggle="tab">房源收藏</a></li>
                 </ul>
-                <!-- 个人信息表单 -->
-                <div class="user-info">
-                    <form id="profile-form" class="form-group">
-                        <div class="row">
-                            <div class="col-lg-8 c-1">
-                                <label for="username" class="form-label">用户名：</label>
-                                <input type="text" class="form-control" id="username" name="username" 
-                                       value="{{ username }}" placeholder="请输入用户名">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-8 c-1">
-                                <label for="addr" class="form-label">住址：</label>
-                                <input type="text" class="form-control" id="addr" name="addr" 
-                                       value="{{addr}}" data-original="{{addr}}" placeholder="请输入住址">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-8 c-1">
-                                <label for="password" class="form-label">密码：</label>
-                                <div class="password-container">
-                                    <input type="password" class="form-control" id="password" name="password" 
-                                           placeholder="留空表示不修改密码">
-                                    <i class="fa fa-eye password-toggle" id="password-toggle" title="显示/隐藏密码"></i>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active show" id="userinfo">
+                        <!-- 个人信息表单 -->
+                        <div class="user-info">
+                            <form id="profile-form" class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-8 c-1">
+                                        <label for="username" class="form-label">用户名：</label>
+                                        <input type="text" class="form-control" id="username" name="username" 
+                                               value="{{ username }}" placeholder="请输入用户名">
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-8 c-1">
-                                <label for="email" class="form-label">邮箱：</label>
-                                <input type="email" class="form-control" id="email" name="email" 
-                                       value="{{email}}" data-original="{{email}}" placeholder="请输入邮箱">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-8 c-1">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-save" aria-hidden="true"></i> 保存修改
-                                </button>
-                                <button type="reset" class="btn btn-secondary">
-                                    <i class="fa fa-refresh" aria-hidden="true"></i> 重置
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- 收藏列表 -->
-                <div class="user-collections">
-                {% if houses %}
-                {% for house in houses %}
-                <div class="collection">
-                    <div class="row collection-line" id="collect">
-                        <span class="collect_off" data-hid="{{ house.id }}">取消收藏</span>
-                        <div class="col-lg-4 col-md-4 mx-auto">
-                            <div>
-                                <a href="/house/{{ house.id }}">
-                                    <img class='img-fluid img-box' src="/static/img/house-bg1.jpg" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 mx-auto">
-                            <div class="collection-line-info">
-                                <div>
-                                    <span class="attribute-text">房源地址：</span>
-                                    &nbsp
-                                    <span class="info-text">{{ house.address or '暂无' }}</span>
+                                <div class="row">
+                                    <div class="col-lg-8 c-1">
+                                        <label for="addr" class="form-label">住址：</label>
+                                        <input type="text" class="form-control" id="addr" name="addr" 
+                                               value="{{addr}}" data-original="{{addr}}" placeholder="请输入住址">
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="attribute-text">建筑面积：</span>
-                                    &nbsp
-                                    <span class="info-text">{{ house.area or '暂无' }}平方米</span>
+                                <div class="row">
+                                    <div class="col-lg-8 c-1">
+                                        <label for="password" class="form-label">密码：</label>
+                                        <div class="password-container">
+                                            <input type="password" class="form-control" id="password" name="password" 
+                                                   placeholder="留空表示不修改密码">
+                                            <i class="fa fa-eye password-toggle" id="password-toggle" title="显示/隐藏密码"></i>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="attribute-text">房源户型：</span>
-                                    &nbsp
-                                    <span class="info-text">{{ house.rooms or '暂无' }}</span>
+                                <div class="row">
+                                    <div class="col-lg-8 c-1">
+                                        <label for="email" class="form-label">邮箱：</label>
+                                        <input type="email" class="form-control" id="email" name="email" 
+                                               value="{{email}}" data-original="{{email}}" placeholder="请输入邮箱">
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="attribute-text">房源朝向：</span>
-                                    &nbsp
-                                    <span class="info-text">{{ house.direction or '暂无' }}</span>
+                                <div class="row">
+                                    <div class="col-lg-8 c-1">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-save" aria-hidden="true"></i> 保存修改
+                                        </button>
+                                        <button type="reset" class="btn btn-secondary">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i> 重置
+                                        </button>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="attribute-text">房源价格：</span>
-                                    &nbsp
-                                    <span class="info-text" style="color: #e74c3c">￥&nbsp{{ house.price or '暂无' }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 mx-auto" style="height: 100px; margin-top: 40px;">
-                            <div class="info-more"
-                                style="width: 100%; height: 100%; position: relative; overflow: hidden;">
-                                <span><a href="/house/{{ house.id }}"
-                                        style="position: absolute; top:-30px; left: -1px; height: 20px;"><i
-                                            class="fa fa-arrow-right" aria-hidden="true"></i></a></span>
-                            </div>
+                            </form>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
-                {% else %}
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 mx-auto">
-                        <h3>暂无收藏房源</h3>
+                    <div class="tab-pane fade" id="collections">
+                        <!-- 收藏列表 -->
+                        <div class="user-collections">
+                        {% if houses %}
+                            {% for house in houses %}
+                            <div class="row collection-line" style="margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid #eee; position:relative;">
+                                <span class="collect_off" data-hid="{{ house.id }}" style="position:absolute;top:8px;right:18px;font-size:13px;color:#e74c3c;cursor:pointer;z-index:2;">取消收藏</span>
+                                <div class="col-lg-4 col-md-4">
+                                    <div>
+                                        <a href="/house/{{ house.id }}">
+                                            <img class='img-fluid img-box' src="/static/img/house-bg1.jpg" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="collection-line-info">
+                                        <div>
+                                            <span class="attribute-text">房源地址：</span>
+                                            &nbsp
+                                            <span class="info-text">{{ house.address or '暂无' }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="attribute-text">建筑面积：</span>
+                                            &nbsp
+                                            <span class="info-text">{{ house.area or '暂无' }}平方米</span>
+                                        </div>
+                                        <div>
+                                            <span class="attribute-text">房源户型：</span>
+                                            &nbsp
+                                            <span class="info-text">{{ house.rooms or '暂无' }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="attribute-text">房源朝向：</span>
+                                            &nbsp
+                                            <span class="info-text">{{ house.direction or '暂无' }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="attribute-text">房源价格：</span>
+                                            &nbsp
+                                            <span class="info-text" style="color: #e74c3c">￥&nbsp{{ house.price or '暂无' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2" style="height: 100px; margin-top: 40px;">
+                                    <div class="info-more"
+                                        style="width: 100%; height: 100%; position: relative; overflow: hidden;">
+                                        <span><a href="/house/{{ house.id }}"
+                                                style="position: absolute; top:-30px; left: -1px; height: 20px;"><i
+                                                    class="fa fa-arrow-right" aria-hidden="true"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 mx-auto">
+                                    <h3>暂无收藏房源</h3>
+                                </div>
+                            </div>
+                        {% endif %}
+                        </div>
                     </div>
-                </div>
-                {% endif %}
                 </div>
             </div>
             <!-- 右侧：浏览记录 -->

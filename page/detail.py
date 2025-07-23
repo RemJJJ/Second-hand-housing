@@ -77,7 +77,10 @@ def collection():
         else:
             collect_id = []
         if hid in collect_id:
-            return jsonify({"code": 2, "msg": "已收藏"})
+            collect_id.remove(hid)
+            user.collect_id = ",".join(collect_id)
+            db.session.commit()
+            return jsonify({"code": 2, "msg": "取消收藏成功"})
         else:
             collect_id.append(hid)
             user.collect_id = ",".join(collect_id)
