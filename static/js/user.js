@@ -189,3 +189,24 @@ $('.collect_off').click(function(){
         }
     })
 })
+
+// 清空浏览记录
+$('#del').click(function(){
+    var confirmMsg = '确定要清空浏览记录吗？';
+    if(!confirm(confirmMsg)){
+        return;
+    }
+    $.ajax({
+        url: '/deletebrowserecord',
+        type: 'POST',
+        dataType: 'json',
+        success: function(response){
+            if(response.code === 1){
+                alert('清空浏览记录成功');
+                // 清空浏览记录
+                $('.browse-record-first-div').remove();
+                $('.no-browse-tip').show();
+            }
+        }
+    })
+})

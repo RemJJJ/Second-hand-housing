@@ -15,12 +15,36 @@ def index(id=None):
     if not house:
         return redirect(url_for("index_page.index"))
 
+    # 增加房源热度
+    if house.page_views is None:
+        house.page_views = 1
+    else:
+        house.page_views += 1
+    db.session.commit()
+
     # 判断是否收藏
     is_collect = False
     user_id = request.cookies.get("name")
     if user_id:
         user = User.query.filter(User.name == user_id).first()
         if user:
+            # 添加浏览记录到Recommend表
+            from models import Recommend
+
+            rec = Recommend.query.filter_by(user_id=user.id, house_id=house.id).first()
+            if rec:
+                rec.score = (rec.score or 0) + 1
+            else:
+                rec = Recommend(
+                    user_id=user.id,
+                    house_id=house.id,
+                    title=house.title,
+                    address=house.address,
+                    block=house.block,
+                    score=1,
+                )
+                db.session.add(rec)
+            db.session.commit()
             collect = user.collect_id
             if collect:
                 collect_id = collect.split(",")

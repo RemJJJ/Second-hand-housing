@@ -131,21 +131,27 @@
                         <span id="del">清空浏览记录</span>
                     </div>
                     <div style="overflow: scroll; height:680px;">
-                        <div class="col-lg-10 col-md-10 mx-auto browse-record-first-div">
-                            <div class="course">
-                                <div><a href="/house"><img class='img-fluid img-box' src="/static/img/house-bg1.jpg"
-                                            alt=""></a>
-                                </div>
-                                <div class="course-info">
-                                    <span class="glyphicon glyphicon-map-marker"></span>
-                                    <span>55555</span>
-                                </div>
-                                <div class="course-info1">
-                                    <span>6666-200平方米</span>
-                                    <span class="price">￥&nbsp8888</span>
+                        {% if browse_records and browse_records|length > 0 %}
+                            {% for rec in browse_records %}
+                            <div class="col-lg-10 col-md-10 mx-auto browse-record-first-div">
+                                <div class="course">
+                                    <div><a href="/house/{{ rec.house_id }}"><img class='img-fluid img-box' src="/static/img/house-bg1.jpg" alt=""></a></div>
+                                    <div class="course-info">
+                                        <span class="glyphicon glyphicon-map-marker"></span>
+                                        <span>{{ rec.address or '暂无' }}</span>
+                                    </div>
+                                    <div class="course-info1">
+                                        <span>{{ rec.title or '无标题' }}</span>
+                                    </div>
+                                    <div class="course-info2" style="color:#2193b0;font-size:13px;margin-top:2px;">
+                                        浏览次数: {{ rec.score or 1 }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            {% endfor %}
+                        {% else %}
+                        <div class="no-browse-tip" style="color:#aaa;text-align:center;padding:40px 0;">暂无浏览记录</div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

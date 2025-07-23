@@ -1,6 +1,6 @@
-from flask import Flask, Blueprint, redirect, render_template
+from flask import Flask, Blueprint, redirect, render_template, jsonify
 from flask import request
-from models import User, House
+from models import User, House, Recommend, db
 
 user_page = Blueprint("user_page", __name__)
 
@@ -28,6 +28,15 @@ def index(username=None):
 
         houses = House.query.filter(House.id.in_(collect_id)).all()
 
+        # 查询浏览记录，按score和id倒序
+        from models import Recommend
+
+        browse_records = (
+            Recommend.query.filter_by(user_id=user.id)
+            .order_by(Recommend.score.desc(), Recommend.id.desc())
+            .all()
+        )
+
         print(houses)
 
         if user:
@@ -37,6 +46,7 @@ def index(username=None):
                 addr=user.addr if user.addr else "",
                 email=user.email,
                 houses=houses,
+                browse_records=browse_records,
             )
         else:
             return render_template("user.html", username=name, addr="", email="")
@@ -44,3 +54,21 @@ def index(username=None):
     # 如果访问的是别人的页面，重定向到自己的页面
     else:
         return redirect(f"/user/{name}")
+
+
+# 清空浏览记录
+@user_page.route("/deletebrowserecord", methods=["post"])
+def delete_browse_record():
+    username = request.cookies.get("name")
+    if not username:
+        return jsonify({"code": 0, "msg": "请先登录"})
+
+    # 先获取用户ID
+    user = User.query.filter(User.name == username).first()
+    if not user:
+        return jsonify({"code": 0, "msg": "用户不存在"})
+
+    # 根据用户ID删除浏览记录
+    rec = Recommend.query.filter(Recommend.user_id == user.id).delete()
+    db.session.commit()
+    return jsonify({"code": 1, "msg": "清空浏览记录成功"})
