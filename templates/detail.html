@@ -319,7 +319,7 @@
 </header>
 <script src="/static/house/js/show_data_pie.js"></script>
 <script src="/static/js/show_column_data.js"></script>
-<script src="/static/js/show_price_data.js"></script>
+<script src="/static/house/js/show_f_line_data.js"></script>
 <script src="/static/js/show_broken_line_data.js"></script>
 <script>
     $(document).ready(function(){
@@ -359,23 +359,15 @@
             }
         });
         
-        // 价格走势图
+        // 价格走势 线性回归点状图
         $.ajax({
             type: 'post',
-            url: '/get/pricedata/{{house.block}}',
+            url: '/get/scatterdata/{{house.block}}',
             dataType: 'json',
-            success: function(response){
-                console.log('价格走势图数据响应:', response);
-                if(response.code === 0 && response.data) {
-                    price_chart(response.data);
-                } else {
-                    console.error('获取价格走势图数据失败:', response.msg);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('价格走势图数据请求失败:', error);
+            success: function (res) {
+                get_line_data(res.data)
             }
-        });
+        })
         
         // 户型价格走势图
         $.ajax({
