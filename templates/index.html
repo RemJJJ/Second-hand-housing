@@ -320,7 +320,6 @@
                                     oList.appendChild(item)
                                 }
                                 oList.style.display = 'block';
-                                info_to_txt();
                             } else {
                                 oList.style.display = 'none';
                             }
@@ -337,20 +336,12 @@
         })
     }
 
-    function info_to_txt() {
-        $(".li_style").on('click', function () {
-            // 实现了重复点击的初始化
-            if ($(this).hasClass('active')) {
-                $(this).removeClass('active')
-            }
-            $(this).addClass('active');
-            t_name = $(this).attr('title');
-            $('#txt').val('');
-            $('#txt').val(t_name);
-            $('#list').empty()
-            $('#list').hide();
-        })
-    }
+    // 事件委托：点击下拉建议项写入搜索框
+    $('#list').on('click', '.li_style', function () {
+        let t_name = $(this).attr('title');
+        $('#txt').val(t_name);
+        $('#list').empty().hide();
+    });
     
     // 搜索框失去焦点时隐藏建议列表
     $('#txt').on('blur', function() {
