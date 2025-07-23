@@ -317,10 +317,15 @@
         </div>
     </div>
 </header>
+<!--饼图插件-->
 <script src="/static/house/js/show_data_pie.js"></script>
-<script src="/static/js/show_column_data.js"></script>
+<!--柱状图插件-->
+<script src="/static/house/js/show_column_data.js"></script>
+<!--价格走势 线性回归点状图-->
 <script src="/static/house/js/show_f_line_data.js"></script>
-<script src="/static/js/show_broken_line_data.js"></script>
+<!--户型价格走势图-->
+<script src="/static/house/js/show_broken_line_data.js"></script>
+
 <script>
     $(document).ready(function(){
         // 户型占比
@@ -364,15 +369,23 @@
             type: 'post',
             url: '/get/scatterdata/{{house.block}}',
             dataType: 'json',
-            success: function (res) {
-                get_line_data(res.data)
+            success: function (response) {
+                console.log('价格走势 线性回归点状图数据响应:', response);
+                if(response.code === 0 && response.data) {
+                    get_line_data(response.data)
+                } else {
+                    console.error('获取价格走势 线性回归点状图数据失败:', response.msg);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('价格走势 线性回归点状图数据请求失败:', error);
             }
         })
         
         // 户型价格走势图
         $.ajax({
             type: 'post',
-            url: '/get/roompricedata/{{house.block}}',
+            url: '/get/brokenlinedata/{{house.block}}',
             dataType: 'json',
             success: function(response){
                 console.log('户型价格走势图数据响应:', response);
