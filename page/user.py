@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, redirect, render_template
 from flask import request
-from models import User
+from models import User, House
 
 user_page = Blueprint("user_page", __name__)
 
@@ -19,12 +19,22 @@ def index(username=None):
     if username is None or name == username:
         # 获取用户信息
         user = User.query.filter_by(name=name).first()
+        collect = user.collect_id
+        if collect:
+            collect_id = collect.split(",")
+        else:
+            collect_id = []
+        print(collect_id)
+
+        houses = House.query.filter(House.id.in_(collect_id)).all()
+
         if user:
             return render_template(
                 "user.html",
                 username=name,
                 addr=user.addr if user.addr else "",
                 email=user.email,
+                houses=houses,
             )
         else:
             return render_template("user.html", username=name, addr="", email="")
