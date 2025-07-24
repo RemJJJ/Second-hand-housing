@@ -141,7 +141,8 @@
                                         <span>{{ rec.address or '暂无' }}</span>
                                     </div>
                                     <div class="course-info1">
-                                        <span>{{ rec.title or '无标题' }}</span>
+                                        <!--添加过滤器，如果title为空，则显示无标题-->
+                                        <span>{{ rec.title|default('无标题') | deal_title_over }}</span>
                                     </div>
                                     <div class="course-info2" style="color:#2193b0;font-size:13px;margin-top:2px;">
                                         浏览次数: {{ rec.score or 1 }}

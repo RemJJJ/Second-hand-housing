@@ -26,14 +26,29 @@ def index(username=None):
             collect_id = []
         print(collect_id)
 
-        houses = House.query.filter(House.id.in_(collect_id)).all()
+        if collect_id:
+            # 使用case when来按照collect_id中的顺序排序，最近的收藏（后面插入的）在最前面
+            order_case = db.case(
+                {
+                    house_id: len(collect_id) - 1 - index
+                    for index, house_id in enumerate(collect_id)
+                },
+                value=House.id,
+            )
+            houses = (
+                House.query.filter(House.id.in_(collect_id))
+                .order_by(order_case.asc())
+                .all()
+            )
+        else:
+            houses = []
 
-        # 查询浏览记录，按score和id倒序
+        # 查询浏览记录
         from models import Recommend
 
         browse_records = (
             Recommend.query.filter_by(user_id=user.id)
-            .order_by(Recommend.score.desc(), Recommend.id.desc())
+            .order_by(Recommend.id.desc())
             .all()
         )
 

@@ -7,9 +7,9 @@ function column_chart(data) {
     // });
     // 防止重复绑定resize
     if (!window._scolumn_line_resize_bound) {
-        window.addEventListener('resize', function () {
-            salaru_line.resize();
-        });
+    window.addEventListener('resize', function () {
+        salaru_line.resize();
+    });
         window._scolumn_line_resize_bound = true;
     }
     var XData = data['name_list_x']; // X轴的数据

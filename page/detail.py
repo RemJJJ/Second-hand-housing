@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint, render_template, redirect, url_for, request, jsonify
-from models import House, User, db
+from models import House, User, db, Recommend
 from sqlalchemy import func
 import random
 
@@ -15,26 +15,15 @@ def index(id=None):
     if not house:
         return redirect(url_for("index_page.index"))
 
-    # 增加房源热度
-    if house.page_views is None:
-        house.page_views = 1
-    else:
-        house.page_views += 1
-    db.session.commit()
-
     # 判断是否收藏
     is_collect = False
+    # 增加房源热度，用户重复访问，不增加热度
     user_id = request.cookies.get("name")
     if user_id:
         user = User.query.filter(User.name == user_id).first()
         if user:
-            # 添加浏览记录到Recommend表
-            from models import Recommend
-
             rec = Recommend.query.filter_by(user_id=user.id, house_id=house.id).first()
-            if rec:
-                rec.score = (rec.score or 0) + 1
-            else:
+            if not rec:
                 rec = Recommend(
                     user_id=user.id,
                     house_id=house.id,
@@ -42,6 +31,23 @@ def index(id=None):
                     address=house.address,
                     block=house.block,
                     score=1,
+                )
+                db.session.add(rec)
+                if house.page_views is None:
+                    house.page_views = 1
+                else:
+                    house.page_views += 1
+            else:
+                # 先删除该条记录，然后再添加
+                old_score = (rec.score or 0) + 1
+                Recommend.query.filter_by(user_id=user.id, house_id=house.id).delete()
+                rec = Recommend(
+                    user_id=user.id,
+                    house_id=house.id,
+                    title=house.title,
+                    address=house.address,
+                    block=house.block,
+                    score=old_score,
                 )
                 db.session.add(rec)
             db.session.commit()
